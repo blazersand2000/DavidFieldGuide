@@ -16,5 +16,14 @@ export default {
             // 'ol': { '@apply list-decimal pl-5': {} },
          });
       },
+      require('daisyui'),
    ],
+   daisyui: {
+      themes: [
+         'light', // Default light theme
+         'dark',  // Default dark theme
+         'cupcake', // Example of another built-in theme
+         // Add more themes as needed
+      ],
+   },
 }
