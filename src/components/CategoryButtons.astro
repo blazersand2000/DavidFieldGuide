@@ -1,0 +1,35 @@
+---
+import { getCollection } from "astro:content"
+import ImageButton from "./ImageButton.astro"
+
+const allSpecies = await getCollection("species")
+
+// Create a Map from category to array of species
+const categoryMap = new Map()
+allSpecies.forEach((s) => {
+   if (!categoryMap.has(s.data.category)) {
+      categoryMap.set(s.data.category, [])
+   }
+   categoryMap.get(s.data.category).push(s)
+})
+
+// Create an array of categories with the first species' imagePath
+const categories = Array.from(categoryMap, ([category, speciesArray]) => ({
+   name: category,
+   imagePath: speciesArray[0].data.imagePath,
+}))
+---
+
+<div>
+   <div class="flex flex-wrap justify-center gap-4">
+      {
+         categories.map((category) => (
+            <ImageButton
+               imagePath={category.imagePath}
+               title={category.name.toUpperCase()}
+               link={`/categories/${category.name}`}
+            />
+         ))
+      }
+   </div>
+</div>

@@ -1,0 +1,41 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro"
+import { getCollection } from "astro:content"
+
+export async function getStaticPaths() {
+   const allSpecies = await getCollection("species")
+
+   // Create a Map from category to array of species
+   const categoryMap = new Map()
+   allSpecies.forEach((s) => {
+      if (!categoryMap.has(s.data.category)) {
+         categoryMap.set(s.data.category, [])
+      }
+      categoryMap.get(s.data.category).push(s)
+   })
+
+   // Create an array of categories
+   const categories = Array.from(categoryMap.keys())
+
+   return categories.map((category) => ({
+      params: { category },
+      props: { species: categoryMap.get(category) },
+   }))
+}
+
+const { category } = Astro.params
+const { species } = Astro.props
+---
+
+<BaseLayout pageTitle={category}>
+   <p>Category: {category}</p>
+   <ul>
+      {
+         species.map((s) => (
+            <li>
+               <a href={`/fieldguides/${s.slug}`}>{s.data.commonName}</a>
+            </li>
+         ))
+      }
+   </ul>
+</BaseLayout>

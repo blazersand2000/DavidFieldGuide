@@ -1,9 +1,9 @@
 import { z, defineCollection } from "astro:content"
 
-const speciesCollection = defineCollection({
+const species = defineCollection({
    type: "content",
    schema: z.object({
-      category: z.string(),
+      category: z.enum(["snakes", "lizards", "turtles", "frogs", "salamanders"]),
       scientificName: z.string(),
       commonName: z.string(),
       imagePath: z.string(),
@@ -11,5 +11,5 @@ const speciesCollection = defineCollection({
 })
 
 export const collections = {
-   species: speciesCollection,
+   species,
 }
