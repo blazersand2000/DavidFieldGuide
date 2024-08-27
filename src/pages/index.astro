@@ -2,10 +2,7 @@
 import { Image } from "astro:assets"
 import maveImage from "../assets/images/mave.png"
 import BaseLayout from "../layouts/BaseLayout.astro"
-import { getCollection } from "astro:content"
 import CategoryButtons from "../components/CategoryButtons.astro"
-
-const allSpecies = await getCollection("species")
 
 const pageTitle = "David's Field Guide"
 ---

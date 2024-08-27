@@ -5,21 +5,11 @@ import { getCollection } from "astro:content"
 export async function getStaticPaths() {
    const allSpecies = await getCollection("species")
 
-   // Create a Map from category to array of species
-   const categoryMap = new Map()
-   allSpecies.forEach((s) => {
-      if (!categoryMap.has(s.data.category)) {
-         categoryMap.set(s.data.category, [])
-      }
-      categoryMap.get(s.data.category).push(s)
-   })
-
-   // Create an array of categories
-   const categories = Array.from(categoryMap.keys())
+   const categories = Array.from(new Set(allSpecies.map((s) => s.data.category)))
 
    return categories.map((category) => ({
       params: { category },
-      props: { species: categoryMap.get(category) },
+      props: { species: allSpecies.filter((s) => s.data.category === category) },
    }))
 }
 
